@@ -3,12 +3,12 @@ import React,{useContext} from "react";
 import {useNavigate} from 'react-router';
 import {useForm} from 'react-hook-form';
 import { Auth } from "../context/AuthContext";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const  navigate  = useNavigate();
   
-  const {registeredUser,loggedInUser, setLoggedInUser} = useContext(Auth);
+  const {registeredUser, setLoggedInUser} = useContext(Auth);
 
   const{
     register,
@@ -17,23 +17,28 @@ const Login = () => {
     formState:{errors}
   } = useForm();
     
-  const formHandle = (data) => {
-    let ans = registeredUser.find((val) => val.Email === data.Email 
-    && val.Password === data.Password);
-    
-    if(ans){
-      console.log("Logged in ");
-      toast.success("Logged In Succesfully");
-      setLoggedInUser(true);
-      navigate("/main")
-    }
-    else{
-      console.log("Wrong Credentials");
-      toast.error("Wrong Email or Password")
-    }
+  
+const formHandle = (data) => {
+  const ans = Array.isArray(registeredUser)
+    ? registeredUser.find(
+        (val) =>
+          val.Email === data.Email &&
+          val.Password === data.Password
+      )
+    : undefined;
 
-    reset();
+  if (ans) {
+    setLoggedInUser(ans);
+
+    toast.success("Logged in successfully");
+    navigate("/main");
+  } else {
+    toast.error("Wrong email or password");
   }
+
+  reset();
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-10">

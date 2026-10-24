@@ -3,7 +3,7 @@ import React,{useContext} from "react";
 import { useNavigate } from "react-router";
 import {useForm} from 'react-hook-form';
 import { Auth } from "../context/AuthContext.jsx";
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 
 const Register = () => {
 
@@ -19,14 +19,27 @@ const Register = () => {
     mode:"onChange"
   });
 
-  const handleForm = (data) => {
-     console.log(data);
-     let arr = [...registeredUser,data];
-     setRegisteredUser(arr);
-     localStorage.setItem("users",JSON.stringify(arr));
-     toast.success("User Created Successfully");
-     reset();
+ 
+const handleForm = (data) => {
+  const emailExists = registeredUser.some(
+    (user) =>
+      user.Email.toLowerCase() === data.Email.toLowerCase()
+  );
+
+  if (emailExists) {
+    toast.error("This email is already registered");
+    return;
   }
+
+  const updatedUsers = [...registeredUser, data];
+
+  setRegisteredUser(updatedUsers);
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+  toast.success("User created successfully");
+  reset();
+};
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-10">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl sm:p-10">
