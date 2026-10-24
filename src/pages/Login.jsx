@@ -16,7 +16,7 @@ const Login = () => {
     handleSubmit,
     formState:{errors}
   } = useForm();
-  
+    
   const formHandle = (data) => {
     let ans = registeredUser.find((val) => val.Email === data.Email 
     && val.Password === data.Password);
@@ -24,7 +24,8 @@ const Login = () => {
     if(ans){
       console.log("Logged in ");
       toast.success("Logged In Succesfully");
-      setLoggedInUser(data);
+      setLoggedInUser(true);
+      navigate("/main")
     }
     else{
       console.log("Wrong Credentials");

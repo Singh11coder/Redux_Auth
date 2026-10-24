@@ -7,6 +7,9 @@ import Register from './pages/Register';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoutes from './routes/ProtectedRoutes';
 import Home from './pages/Home';
+import Users from './pages/Users';
+import Products from './pages/Products';
+import MainLayout from './layout/MainLayout';
 
 
 const router = createBrowserRouter([
@@ -15,7 +18,7 @@ const router = createBrowserRouter([
      element:<AuthLayout/>,
      children:[
        {
-         path:"",
+         index:true,
          element:<Login/>
        },
        {
@@ -30,7 +33,21 @@ const router = createBrowserRouter([
      children:[
        {
           path:"",
-          element:<Home/>
+          element:<MainLayout/>,
+          children:[
+             {
+               index:true,
+               element:<Home/>
+             },
+             { 
+               path:"users",
+               element:<Users/>
+             },
+             {
+               path:"products",
+               element:<Products/>
+             }
+          ]
        }
      ]
    }
