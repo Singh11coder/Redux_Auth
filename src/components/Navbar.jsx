@@ -1,7 +1,13 @@
 import React from 'react'
-import { NavLink } from 'react-router';
+import { NavLink, Navigate, useNavigate } from 'react-router';
 
 const Navbar = () => {
+  let navigate = useNavigate();
+  const handleLogout = () => {
+     localStorage.removeItem("users");
+     navigate("/");
+  }
+
   return (
     <div className="flex flex-col justify-between ">
       <div className='flex items-center justify-evenly absolute top-2 fixed'>
@@ -26,7 +32,9 @@ const Navbar = () => {
         >Users</NavLink>
       </div>
       <div className=" pl-6 absolute top-175 fixed"> 
-         <button className="bg-gray-400 px-10 py-3 text-2xl rounded-2xl hover:bg-gray-500 hover:cursor-pointer">Logout</button>
+         <button 
+         onClick={handleLogout}
+         className="bg-gray-400 px-10 py-3 text-2xl rounded-2xl hover:bg-gray-500 hover:cursor-pointer">Logout</button>
       </div>
        
     </div>
